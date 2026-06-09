@@ -1,61 +1,212 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# IT Support Ticket Dashboard
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Overview
 
-## About Laravel
+IT Support Ticket Dashboard is a web-based application developed to help organizations manage and monitor internal IT support requests efficiently. The system provides ticket tracking, category management, status monitoring, and role-based access control to ensure a structured support workflow.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+---
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Technology Stack
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+* Laravel 12
+* PHP 8.2+
+* MySQL
+* Bootstrap 5
+* jQuery
+* Yajra DataTables
+* Spatie Laravel Permission
+* Chart.js
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Features
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Dashboard
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+The dashboard provides a quick overview of ticket activities through the following statistics:
 
-## Laravel Sponsors
+* Total Tickets
+* Open Tickets
+* In Progress Tickets
+* High Priority Tickets
+* Closed Tickets
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Additional dashboard components:
 
-### Premium Partners
+* Ticket Status Distribution Chart
+* Ticket Category Distribution Chart
+* Recent Tickets List
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+---
 
-## Contributing
+### Category Management
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Administrators can manage ticket categories through:
 
-## Code of Conduct
+* Create Category
+* Update Category
+* Delete Category
+* View Category List
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Example Categories:
 
-## Security Vulnerabilities
+* Network
+* Hardware
+* Software
+* Email
+* Printer
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+---
 
-## License
+### Ticket Management
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+The system provides complete ticket management functionality:
+
+* Create Ticket
+* Edit Ticket
+* Delete Ticket
+* View Ticket List
+* Assign Ticket to User
+* Search and Filter Tickets
+* Pagination using DataTables
+
+Ticket Information:
+
+* Ticket Number
+* Ticket Title
+* Category
+* Priority
+* Status
+* Assigned Person
+* Description
+* Notes
+* Created Date
+
+---
+
+## Ticket Workflow
+
+Each ticket follows the support workflow below:
+
+Open → In Progress → Resolved → Closed
+
+This workflow helps support teams track ticket progress from creation until completion.
+
+---
+
+## Role & Permission Management
+
+The application implements Role-Based Access Control (RBAC) using Spatie Laravel Permission.
+
+### Available Roles
+
+* Super Admin
+* IT Administrator
+* User
+
+### Available Permissions
+
+* tickets.view
+* tickets.create
+* tickets.update
+* tickets.delete
+* tickets.update-status
+
+### Status Update Authorization
+
+Ticket status updates are restricted to authorized users only.
+
+Users who possess the `tickets.update-status` permission can update ticket status directly from the ticket list.
+
+| Role             | Can Update Status            |
+| ---------------- | ---------------------------- |
+| Super Admin      | Yes                          |
+| IT Administrator | Yes (if permission assigned) |
+| User             | No                           |
+
+Unauthorized users cannot access the ticket status update functionality through either the user interface or direct URL requests.
+
+---
+
+## Database Structure
+
+### Categories
+
+| Field       | Type      |
+| ----------- | --------- |
+| id          | bigint    |
+| name        | varchar   |
+| description | text      |
+| created_at  | timestamp |
+| updated_at  | timestamp |
+
+### Tickets
+
+| Field            | Type      |
+| ---------------- | --------- |
+| id               | bigint    |
+| ticket_number    | varchar   |
+| title            | varchar   |
+| category_id      | bigint    |
+| assigned_user_id | bigint    |
+| priority         | enum      |
+| status           | enum      |
+| description      | text      |
+| notes            | text      |
+| created_date     | datetime  |
+| created_at       | timestamp |
+| updated_at       | timestamp |
+
+---
+
+## Installation
+
+```bash
+git clone <repository-url>
+
+composer install
+
+cp .env.example .env
+
+php artisan key:generate
+
+php artisan migrate --seed
+
+php artisan serve
+```
+
+---
+
+## Default Accounts
+
+### Super Admin
+
+Email: [super@example.com]
+
+Password: password
+
+### admin
+
+Email: [admin@example.com]
+
+Password: password
+
+---
+
+## Application Highlights
+
+* Responsive User Interface
+* Role-Based Access Control (RBAC)
+* Ticket Status Workflow
+* Dashboard Analytics
+* Category Management
+* Ticket Assignment
+* Status-Based Monitoring
+* Permission-Based Actions
+* Server-Side DataTables
+
+---
+
+## Conclusion
+
+The IT Support Ticket Dashboard provides a simple yet effective solution for managing internal IT support requests. By combining ticket tracking, workflow management, dashboard analytics, and permission-based access control, the system helps organizations improve support operations and monitor ticket progress efficiently.
