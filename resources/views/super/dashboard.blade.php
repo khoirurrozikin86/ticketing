@@ -35,164 +35,157 @@
 
     {{-- Stats Row (tambahkan atau ganti yang lama sesuai selera) --}}
     <div class="row g-3 mb-4">
-        <div class="col-6 col-lg-3">
-            <div class="card lift-on-hover">
-                <div class="card-body d-flex align-items-center gap-3">
-                    <div class="rounded-circle d-flex align-items-center justify-content-center bg-primary text-white"
-                        style="width:46px;height:46px;">
-                        <i data-feather="users" class="icon-sm"></i>
-                    </div>
-                    <div>
-                        <div class="small text-muted">Total Users</div>
-                        <div class="h4 mb-0"><span class="countup" data-target="{{ $metrics['users'] ?? 0 }}">0</span></div>
-                    </div>
+
+        <div class="col">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <div class="text-muted small">Total Tickets</div>
+                    <h2 class="fw-bold mb-0">
+                        {{ $metrics['total_tickets'] }}
+                    </h2>
                 </div>
             </div>
         </div>
-        <div class="col-6 col-lg-3">
-            <div class="card lift-on-hover">
-                <div class="card-body d-flex align-items-center gap-3">
-                    <div class="rounded-circle d-flex align-items-center justify-content-center bg-success text-white"
-                        style="width:46px;height:46px;">
-                        <i data-feather="user-check" class="icon-sm"></i>
-                    </div>
-                    <div>
-                        <div class="small text-muted">Pelanggan</div>
-                        <div class="h4 mb-0"><span class="countup" data-target="{{ $metrics['pelanggans'] ?? 0 }}">0</span>
-                        </div>
-                    </div>
+
+        <div class="col">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <div class="text-muted small">Open Tickets</div>
+                    <h2 class="fw-bold text-primary mb-0">
+                        {{ $metrics['open_tickets'] }}
+                    </h2>
                 </div>
             </div>
         </div>
-        <div class="col-6 col-lg-3">
-            <div class="card lift-on-hover">
-                <div class="card-body d-flex align-items-center gap-3">
-                    <div class="rounded-circle d-flex align-items-center justify-content-center bg-warning text-dark"
-                        style="width:46px;height:46px;">
-                        <i data-feather="file-text" class="icon-sm"></i>
-                    </div>
-                    <div>
-                        <div class="small text-muted">
-                            Periode ({{ $metrics['active_period_label'] }})
-                            @if ($metrics['is_fallback_period'])
-                                <span class="badge bg-secondary ms-1">fallback</span>
-                            @endif
-                        </div>
-                        <div class="h4 mb-0">
-                            Rp {{ number_format($metrics['tagihan_amount_period'] ?? 0, 0, ',', '.') }}
-                        </div>
-                    </div>
+
+        <div class="col">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <div class="text-muted small">In Progress</div>
+                    <h2 class="fw-bold text-warning mb-0">
+                        {{ $metrics['in_progress_tickets'] }}
+                    </h2>
                 </div>
             </div>
         </div>
-        <div class="col-6 col-lg-3">
-            <div class="card lift-on-hover">
-                <div class="card-body d-flex align-items-center gap-3">
-                    <div class="rounded-circle d-flex align-items-center justify-content-center bg-info text-white"
-                        style="width:46px;height:46px;">
-                        <i data-feather="credit-card" class="icon-sm"></i>
-                    </div>
-                    <div>
-                        <div class="small text-muted">Dibayar Bulan Ini</div>
-                        <div class="h4 mb-0">Rp {{ number_format($metrics['paid_amount_month'] ?? 0, 0, ',', '.') }}</div>
-                    </div>
+
+        <div class="col">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <div class="text-muted small">High Priority</div>
+                    <h2 class="fw-bold text-danger mb-0">
+                        {{ $metrics['high_priority_tickets'] }}
+                    </h2>
                 </div>
             </div>
         </div>
+
+        <div class="col">
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body text-center">
+                    <div class="text-muted small">Closed Tickets</div>
+                    <h2 class="fw-bold text-success mb-0">
+                        {{ $metrics['closed_tickets'] ?? 0 }}
+                    </h2>
+                </div>
+            </div>
+        </div>
+
     </div>
 
     {{-- Row: Chart + Lists --}}
+
     <div class="row g-3 mb-4">
-        <div class="col-lg-8">
-            <div class="card h-100">
+        <div class="col-lg-6">
+            <div class="card">
                 <div class="card-body">
-                    <div class="d-flex align-items-center justify-content-between mb-3">
-                        <h6 class="card-title mb-0">Tren 6 Bulan (Tagihan vs Pembayaran)</h6>
-                        <div class="small text-muted">
-                            Lunas: {{ $metrics['paid_count_month'] ?? 0 }} • Belum:
-                            {{ $metrics['unpaid_count_month'] ?? 0 }}
-                        </div>
-                    </div>
-                    <canvas id="chart-trend" height="120"></canvas>
+
+                    <h6 class="mb-3">
+                        Tickets by Status
+                    </h6>
+
+                    <canvas id="statusChart"></canvas>
+
                 </div>
             </div>
         </div>
 
-        <div class="col-lg-4">
-            <div class="card h-100">
+        <div class="col-lg-6">
+            <div class="card">
                 <div class="card-body">
-                    <h6 class="card-title mb-3">Outstanding (Total)</h6>
-                    <div class="display-6 fw-bold mb-2">
-                        Rp {{ number_format($metrics['outstanding_total'] ?? 0, 0, ',', '.') }}
-                    </div>
-                    <div class="text-muted small">Total piutang belum tertagih.</div>
-                    <hr>
-                    <h6 class="card-title mb-2">Top Piutang</h6>
-                    <ul class="list-group list-group-flush">
-                        @forelse($topAr as $ar)
-                            <li class="list-group-item d-flex align-items-center justify-content-between">
-                                <div>
-                                    <div class="fw-semibold">{{ $ar->pelanggan ?? '-' }}</div>
-                                    <div class="small text-muted">{{ $ar->no_tagihan }}</div>
-                                </div>
-                                <div class="fw-semibold">Rp {{ number_format($ar->sisa, 0, ',', '.') }}</div>
-                            </li>
-                        @empty
-                            <li class="list-group-item text-muted">Tidak ada piutang.</li>
-                        @endforelse
-                    </ul>
+
+                    <h6 class="mb-3">
+                        Tickets by Category
+                    </h6>
+
+                    <canvas id="categoryChart"></canvas>
+
                 </div>
             </div>
         </div>
     </div>
+
 
     {{-- Row: Recent Payments --}}
-    <div class="row g-3">
-        <div class="col-12">
-            <div class="card h-100">
-                <div class="card-body">
-                    <div class="d-flex align-items-center justify-content-between mb-3">
-                        <h6 class="card-title mb-0">Pembayaran Terbaru</h6>
-                        <a href="{{ route('super.payments.index') }}" class="small">Lihat semua</a>
-                    </div>
 
-                    <div class="table-responsive">
-                        <table class="table table-sm align-middle">
-                            <thead>
-                                <tr>
-                                    <th>Paid At</th>
-                                    <th>No Tagihan</th>
-                                    <th>Pelanggan</th>
-                                    <th>Amount</th>
-                                    <th>Method</th>
-                                    <th>Ref</th>
-                                    <th>User</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @forelse($recentPayments as $p)
-                                    <tr>
-                                        <td>{{ $p->paid_at?->format('d M Y H:i') }}</td>
-                                        <td>{{ $p->tagihan?->no_tagihan }}</td>
-                                        <td>{{ $p->tagihan?->pelanggan?->nama }}</td>
-                                        <td class="fw-semibold">Rp {{ number_format($p->amount, 0, ',', '.') }}</td>
-                                        <td>{{ strtoupper($p->method) }}</td>
-                                        <td>{{ $p->ref_no }}</td>
-                                        <td>{{ $p->user?->name }}</td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="7" class="text-muted">Belum ada pembayaran.</td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
-                    </div>
+    <div class="card mt-4">
+        <div class="card-body">
 
-                </div>
+            <h6 class="mb-3">
+                Recent Tickets
+            </h6>
+
+            <div class="table-responsive">
+
+                <table class="table">
+
+                    <thead>
+                        <tr>
+                            <th>No Ticket</th>
+                            <th>Title</th>
+                            <th>Category</th>
+                            <th>Status</th>
+                            <th>Priority</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        @foreach ($recentTickets as $ticket)
+                            <tr>
+
+                                <td>
+                                    {{ $ticket->ticket_number }}
+                                </td>
+
+                                <td>
+                                    {{ $ticket->title }}
+                                </td>
+
+                                <td>
+                                    {{ $ticket->category?->name }}
+                                </td>
+
+                                <td>
+                                    {{ $ticket->status }}
+                                </td>
+
+                                <td>
+                                    {{ $ticket->priority }}
+                                </td>
+
+                            </tr>
+                        @endforeach
+
+                    </tbody>
+
+                </table>
+
             </div>
+
         </div>
     </div>
+
 
 @endsection
 
@@ -216,55 +209,41 @@
 @push('scripts')
     {{-- CDN Chart.js (hanya untuk dashboard) --}}
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+
     <script>
-        (function() {
-            const el = document.getElementById('chart-trend');
-            if (!el || typeof Chart === 'undefined') return;
+        const statusChart = @json(array_values($statusChart));
 
-            const labels = @json(collect($trend)->pluck('label'));
-            const tagihan = @json(collect($trend)->pluck('tagihan'));
-            const paid = @json(collect($trend)->pluck('paid'));
+        new Chart(
+            document.getElementById('statusChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: [
+                        'Open',
+                        'In Progress',
+                        'Resolved',
+                        'Closed'
+                    ],
+                    datasets: [{
+                        data: statusChart
+                    }]
+                }
+            }
+        );
 
-            new Chart(el, {
+        const categoryData = @json($categoryChart);
+
+        new Chart(
+            document.getElementById('categoryChart'), {
                 type: 'bar',
                 data: {
-                    labels,
+                    labels: categoryData.map(x => x.name),
                     datasets: [{
-                            label: 'Tagihan',
-                            data: tagihan,
-                            borderWidth: 1
-                        },
-                        {
-                            label: 'Dibayar',
-                            data: paid,
-                            type: 'line',
-                            tension: .3,
-                            borderWidth: 2,
-                            pointRadius: 3
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    scales: {
-                        y: {
-                            ticks: {
-                                callback: v => 'Rp ' + Number(v).toLocaleString('id-ID')
-                            }
-                        }
-                    },
-                    plugins: {
-                        tooltip: {
-                            callbacks: {
-                                label: (c) => `${c.dataset.label}: Rp ${Number(c.raw).toLocaleString('id-ID')}`
-                            }
-                        },
-                        legend: {
-                            display: true
-                        }
-                    }
+                        label: 'Tickets',
+                        data: categoryData.map(x => x.total)
+                    }]
                 }
-            });
-        })();
+            }
+        );
     </script>
 @endpush

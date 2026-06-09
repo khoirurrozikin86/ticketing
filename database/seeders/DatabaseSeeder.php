@@ -15,16 +15,19 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        $this->call(UsersAndPermissionsSeeder::class);
+        // $this->call(UsersAndPermissionsSeeder::class);
 
-        $this->call([LandingSeed::class]);
+        // $this->call([LandingSeed::class]);
 
 
         $this->call([
-            BulanSeeder::class,
-            PaketSeeder::class,
-            ServerSeeder::class,
-            PelangganSeeder::class,
+            // BulanSeeder::class,
+            // PaketSeeder::class,
+            // ServerSeeder::class,
+            // PelangganSeeder::class,
+
+               CategorySeeder::class,
+                   TicketSeeder::class,
         ]);
     }
 }

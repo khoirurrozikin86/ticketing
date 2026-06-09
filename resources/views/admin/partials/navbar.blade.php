@@ -93,7 +93,7 @@
                             </div>
                         </div>
                         <ul class="list-unstyled p-1">
-                            <li class="dropdown-item py-2">
+                            {{-- <li class="dropdown-item py-2">
                                 <a href="" class="text-body ms-0">
                                     <i class="me-2 icon-md" data-feather="user"></i>
                                     <span>Profile</span>
@@ -104,7 +104,7 @@
                                     <i class="me-2 icon-md" data-feather="edit-2"></i>
                                     <span>Edit Profile</span>
                                 </a>
-                            </li>
+                            </li> --}}
                             @can('impersonate')
                                 <li class="dropdown-item py-2">
                                     <a href="{{ route('users.switch') }}" class="text-body ms-0">

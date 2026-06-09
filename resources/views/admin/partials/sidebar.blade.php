@@ -1,7 +1,7 @@
 <nav class="sidebar">
     <div class="sidebar-header">
         <a href="{{ route('super.dashboard') }}" class="sidebar-brand">
-            OZ<span> Pay</span>
+            E<span> Ticketing</span>
         </a>
         <div class="sidebar-toggler not-active">
             <span></span><span></span><span></span>
@@ -94,8 +94,64 @@
                 </li>
             @endcan
 
+
             {{-- ================= SETTINGS ================= --}}
-            @canany(['pakets.view', 'servers.view', 'pelanggans.view', 'bulans.view'])
+            @canany(['categories.view', 'tickets.view'])
+                <li class="nav-item nav-category">TICKET MANAGEMENT</li>
+            @endcanany
+
+
+            @can('categories.view')
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="collapse" href="#menu-categories" role="button"
+                        aria-expanded="false" aria-controls="menu-categories">
+                        <i class="link-icon" data-feather="hard-drive"></i>
+                        <span class="link-title">Categories</span>
+                        <i class="link-arrow" data-feather="chevron-down"></i>
+                    </a>
+                    <div class="collapse {{ request()->routeIs('super.categories.*') ? 'show' : '' }}"
+                        id="menu-categories">
+                        <ul class="nav sub-menu">
+                            <li class="nav-item">
+                                <a href="{{ route('super.categories.index') }}"
+                                    class="nav-link {{ request()->routeIs('super.categories.index') ? 'active' : '' }}">
+                                    Show
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            @endcan
+
+
+
+            @can('tickets.view')
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="collapse" href="#menu-tickets" role="button" aria-expanded="false"
+                        aria-controls="menu-tickets">
+                        <i class="link-icon" data-feather="list"></i>
+                        <span class="link-title">Tickets</span>
+                        <i class="link-arrow" data-feather="chevron-down"></i>
+                    </a>
+                    <div class="collapse {{ request()->routeIs('super.tickets.*') ? 'show' : '' }}" id="menu-tickets">
+                        <ul class="nav sub-menu">
+                            <li class="nav-item">
+                                <a href="{{ route('super.tickets.index') }}"
+                                    class="nav-link {{ request()->routeIs('super.tickets.index') ? 'active' : '' }}">
+                                    Show
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            @endcan
+
+
+
+
+
+            {{-- ================= SETTINGS ================= --}}
+            {{-- @canany(['pakets.view', 'servers.view', 'pelanggans.view', 'bulans.view'])
                 <li class="nav-item nav-category">Settings</li>
             @endcanany
 
@@ -182,10 +238,10 @@
                         </ul>
                     </div>
                 </li>
-            @endcan
+            @endcan --}}
 
             {{-- ================= PAYMENT ================= --}}
-            @canany(['tagihans.view', 'payments.view'])
+            {{-- @canany(['tagihans.view', 'payments.view'])
                 <li class="nav-item nav-category">Payment</li>
             @endcanany
 
@@ -247,11 +303,11 @@
                         </ul>
                     </div>
                 </li>
-            @endcan
+            @endcan --}}
 
 
             {{-- ================= PAYMENT ================= --}}
-            @canany(['monitoring.topology'])
+            {{-- @canany(['monitoring.topology'])
                 <li class="nav-item nav-category">monitoring</li>
             @endcanany
 
@@ -263,7 +319,7 @@
                         <span class="link-title">Network Topology</span>
                     </a>
                 </li>
-            @endcan
+            @endcan --}}
 
 
         </ul>

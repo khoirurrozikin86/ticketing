@@ -61,19 +61,30 @@
 
     <div class="text-center px-4">
         <!-- logo -->
-        <div class="d-flex justify-content-center mb-4">
-            <div class="gradient-logo rounded-4 d-flex align-items-center justify-content-center shadow-lg animate-floaty"
-                style="width: 64px; height: 64px;">
-                <!-- Wi-Fi SVG asli -->
-                <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M5 12.55a11 11 0 0 1 14.08 0" />
-                    <path d="M1.42 9a16 16 0 0 1 21.16 0" />
-                    <path d="M8.53 16.11a6 6 0 0 1 6.95 0" />
-                    <circle cx="12" cy="20" r="1" />
-                </svg>
-            </div>
-        </div>
+       <div class="d-flex justify-content-center mb-4">
+    <div class="gradient-logo rounded-4 d-flex align-items-center justify-content-center shadow-lg animate-floaty"
+        style="width: 64px; height: 64px;">
+
+        <svg xmlns="http://www.w3.org/2000/svg"
+            width="34"
+            height="34"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round">
+
+            <path d="M3 9V7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2"/>
+            <path d="M3 15v2a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2"/>
+            <path d="M12 5v14"/>
+            <path d="M3 9a2 2 0 1 0 0 6"/>
+            <path d="M21 9a2 2 0 1 1 0 6"/>
+
+        </svg>
+
+    </div>
+</div>
 
         <!-- heading -->
         <h1 class="fw-bold mb-3 display-5">

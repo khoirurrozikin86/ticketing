@@ -3,25 +3,23 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Super\{RoleController, PermissionController, UserManageController, UserController};
 use App\Http\Controllers\Admin\{
-    PortfolioController,
-    SettingController,
-    ServiceController,
-    TechStackController,
-    PageController,
-    LeadController,
-    PaketController,
-    ServerController,
-    PelangganController,
-    BulanController,
-    TagihanController,
-    PaymentController
+
+
+
+    CategoryController,
+    TicketController,
+    DashboardController
 };
 
 Route::middleware(['auth'])
     ->prefix('super')->name('super.')->group(function () {
 
-        // Dashboard
-        Route::view('/', 'super.dashboard')->name('dashboard')
+
+        Route::get(
+            '/',
+            [DashboardController::class, 'index']
+        )
+            ->name('dashboard')
             ->middleware('permission:dashboard.view');
 
         /* ===== Access Control ===== */
@@ -62,78 +60,66 @@ Route::middleware(['auth'])
 
         /* ===== Settings ===== */
 
-        // PAKETS
-        Route::middleware('permission:pakets.view')->get('pakets', [PaketController::class, 'index'])->name('pakets.index');
-        Route::middleware('permission:pakets.view')->get('pakets/dt', [PaketController::class, 'datatable'])->name('pakets.dt');
-        Route::middleware('permission:pakets.create')->post('pakets', [PaketController::class, 'store'])->name('pakets.store');
-        Route::middleware('permission:pakets.update')->put('pakets/{paket}', [PaketController::class, 'update'])->name('pakets.update');
-        Route::middleware('permission:pakets.delete')->delete('pakets/{paket}', [PaketController::class, 'destroy'])->name('pakets.destroy');
-        Route::middleware('permission:pakets.view')->get('pakets/export/xlsx', [PaketController::class, 'export'])->name('pakets.export');
 
-        // SERVERS
-        Route::middleware('permission:servers.view')->get('servers', [ServerController::class, 'index'])->name('servers.index');
-        Route::middleware('permission:servers.view')->get('servers/dt', [ServerController::class, 'dt'])->name('servers.dt');
-        Route::middleware('permission:servers.view')->get('servers/export/xlsx', [ServerController::class, 'export'])->name('servers.export');
-        Route::middleware('permission:servers.create')->post('servers', [ServerController::class, 'store'])->name('servers.store');
-        Route::middleware('permission:servers.update')->put('servers/{server}', [ServerController::class, 'update'])->name('servers.update');
-        Route::middleware('permission:servers.delete')->delete('servers/{server}', [ServerController::class, 'destroy'])->name('servers.destroy');
 
-        // PELANGGANS
-        Route::middleware('permission:pelanggans.view')->get('pelanggans', [PelangganController::class, 'index'])->name('pelanggans.index');
-        Route::middleware('permission:pelanggans.view')->get('pelanggans/dt', [PelangganController::class, 'dt'])->name('pelanggans.dt');
-        Route::middleware('permission:pelanggans.view')->get('pelanggans/export/xlsx', [PelangganController::class, 'export'])->name('pelanggans.export');
-        Route::middleware('permission:pelanggans.create')->post('pelanggans', [PelangganController::class, 'store'])->name('pelanggans.store');
-        Route::middleware('permission:pelanggans.update')->put('pelanggans/{pelanggan}', [PelangganController::class, 'update'])->name('pelanggans.update');
-        Route::middleware('permission:pelanggans.delete')->delete('pelanggans/{pelanggan}', [PelangganController::class, 'destroy'])->name('pelanggans.destroy');
+        // CATEGORIES
+        Route::middleware('permission:categories.view')
+            ->get('categories', [CategoryController::class, 'index'])
+            ->name('categories.index');
 
-        // BULANS
-        Route::middleware('permission:bulans.view')->get('bulans', [BulanController::class, 'index'])->name('bulans.index');
-        Route::middleware('permission:bulans.view')->get('bulans/dt', [BulanController::class, 'dt'])->name('bulans.dt');
-        Route::middleware('permission:bulans.view')->get('bulans/export/xlsx', [BulanController::class, 'export'])->name('bulans.export');
-        Route::middleware('permission:bulans.create')->post('bulans', [BulanController::class, 'store'])->name('bulans.store');
-        Route::middleware('permission:bulans.update')->put('bulans/{bulan}', [BulanController::class, 'update'])->name('bulans.update');
-        Route::middleware('permission:bulans.delete')->delete('bulans/{bulan}', [BulanController::class, 'destroy'])->name('bulans.destroy');
+        Route::middleware('permission:categories.view')
+            ->get('categories/dt', [CategoryController::class, 'dt'])
+            ->name('categories.dt');
 
-        /* ===== Payment ===== */
+        Route::middleware('permission:categories.view')
+            ->get('categories/export/xlsx', [CategoryController::class, 'export'])
+            ->name('categories.export');
 
-        // TAGIHANS
-        Route::middleware('permission:tagihans.view')->get('tagihans', [TagihanController::class, 'index'])->name('tagihans.index');
-        Route::middleware('permission:tagihans.view')->get('tagihans/dt', [TagihanController::class, 'dt'])->name('tagihans.dt');
-        Route::middleware('permission:tagihans.view')->get('tagihans/export/xlsx', [TagihanController::class, 'export'])->name('tagihans.export');
+        Route::middleware('permission:categories.create')
+            ->post('categories', [CategoryController::class, 'store'])
+            ->name('categories.store');
 
-        Route::middleware('permission:tagihans.create')->post('tagihans', [TagihanController::class, 'store'])->name('tagihans.store');
-        Route::middleware('permission:tagihans.update')->put('tagihans/{tagihan}', [TagihanController::class, 'update'])->name('tagihans.update');
-        Route::middleware('permission:tagihans.delete')->delete('tagihans/{tagihan}', [TagihanController::class, 'destroy'])->name('tagihans.destroy');
+        Route::middleware('permission:categories.update')
+            ->put('categories/{category}', [CategoryController::class, 'update'])
+            ->name('categories.update');
 
-        // generate batch
-        Route::middleware('permission:tagihans.create')->post('tagihans/generate', [TagihanController::class, 'generate'])->name('tagihans.generate');
-
-        // unpaid views
-        Route::middleware('permission:tagihans.view')->get('tagihans/unpaid', [TagihanController::class, 'unpaid'])->name('tagihans.unpaid');
-        Route::middleware('permission:tagihans.view')->get('tagihans/unpaid/dt', [TagihanController::class, 'unpaidDt'])->name('tagihans.unpaid.dt');
-        Route::middleware('permission:tagihans.view')->get('tagihans/unpaid/export/xlsx', [TagihanController::class, 'unpaidExport'])->name('tagihans.unpaid.export');
-
-        // PAYMENTS
-        Route::middleware('permission:payments.view')->get('payments', [PaymentController::class, 'index'])->name('payments.index');
-        Route::middleware('permission:payments.view')->get('payments/dt', [PaymentController::class, 'dt'])->name('payments.dt');
-        Route::middleware('permission:payments.view')->get('payments/summary', [PaymentController::class, 'summary'])->name('payments.summary');
-        Route::middleware('permission:payments.view')->get('payments/export/xlsx', [PaymentController::class, 'export'])->name('payments.export');
-
-        Route::middleware('permission:payments.create')->post('payments', [PaymentController::class, 'store'])->name('payments.store');
-        Route::middleware('permission:payments.delete')->delete('payments/{payment}', [PaymentController::class, 'destroy'])->name('payments.destroy');
-
-        Route::middleware('permission:payments.view')->get('payments/lookup', [PaymentController::class, 'lookup'])->name('payments.lookup');
-        Route::middleware('permission:payments.view')->get('payments/find', [PaymentController::class, 'find'])->name('payments.find');
+        Route::middleware('permission:categories.delete')
+            ->delete('categories/{category}', [CategoryController::class, 'destroy'])
+            ->name('categories.destroy');
 
 
 
-        Route::middleware('permission:payments.view')->post('payments/bulk', [PaymentController::class, 'payMultiple'])->name('payments.bulk');
+
+        // TICKETS
+        Route::middleware('permission:tickets.view')
+            ->get('tickets', [TicketController::class, 'index'])
+            ->name('tickets.index');
+
+        Route::middleware('permission:tickets.view')
+            ->get('tickets/dt', [TicketController::class, 'dt'])
+            ->name('tickets.dt');
+
+        Route::middleware('permission:tickets.view')
+            ->get('tickets/export/xlsx', [TicketController::class, 'export'])
+            ->name('tickets.export');
+
+        Route::middleware('permission:tickets.create')
+            ->post('tickets', [TicketController::class, 'store'])
+            ->name('tickets.store');
+
+        Route::middleware('permission:tickets.update')
+            ->put('tickets/{ticket}', [TicketController::class, 'update'])
+            ->name('tickets.update');
+
+        Route::middleware('permission:tickets.delete')
+            ->delete('tickets/{ticket}', [TicketController::class, 'destroy'])
+            ->name('tickets.destroy');
 
 
-        Route::get('/monitoring', \App\Http\Controllers\Super\MonitoringPageController::class)
-            ->name('monitoring.index');
-
-        // Endpoint JSON (dari jawaban sebelumnya)
-        Route::get('/monitoring/{serverId}', [\App\Http\Controllers\Super\MonitoringController::class, 'index'])
-            ->name('monitoring.json');
+        Route::middleware('permission:tickets.update')
+            ->put(
+                'tickets/{ticket}/status',
+                [TicketController::class, 'updateStatus']
+            )
+            ->name('tickets.status');
     });
