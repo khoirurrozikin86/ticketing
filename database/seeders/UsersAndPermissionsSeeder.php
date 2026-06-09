@@ -26,12 +26,9 @@ class UsersAndPermissionsSeeder extends Seeder
             'user'       => ['menu', 'create', 'read', 'update', 'delete'],
             'role'       => ['menu', 'create', 'read', 'update', 'delete'],
             'permission' => ['menu', 'create', 'read', 'update', 'delete'],
-            'pakets'     => ['view', 'create', 'update', 'delete'],
-            'servers'    => ['view', 'create', 'update', 'delete'],
-            'pelanggans' => ['view', 'create', 'update', 'delete'],
-            'bulans'     => ['view', 'create', 'update', 'delete'],
-            'tagihans'   => ['view', 'create', 'update', 'delete'],
-            'payments'   => ['view', 'create', 'update', 'delete'],
+            'categories' => ['view', 'create', 'update', 'delete'],
+            'tickets'    => ['view', 'create', 'update', 'delete'],
+
         ];
 
         foreach ($modules as $group => $actions) {
@@ -50,50 +47,34 @@ class UsersAndPermissionsSeeder extends Seeder
         // 👤 USER: hanya bisa lihat (read/view)
         $roles['user']->syncPermissions([
             'dashboard.view',
-            'pelanggans.view',
-            'tagihans.view',
-            'payments.view',
+            'tickets.view',
+            'categories.view',
         ]);
 
         // 👨‍💼 ADMIN: CRUD penuh semua modul utama
         $roles['admin']->syncPermissions([
             'dashboard.view',
 
-            'user.menu',
-            'user.create',
-            'user.read',
-            'user.update',
-            'user.delete',
-            'role.menu',
-            'role.create',
-            'role.read',
-            'role.update',
-            'role.delete',
+            // 'user.menu',
+            // 'user.create',
+            // 'user.read',
+            // 'user.update',
+            // 'user.delete',
+            // 'role.menu',
+            // 'role.create',
+            // 'role.read',
+            // 'role.update',
+            // 'role.delete',
 
-            'pakets.view',
-            'pakets.create',
-            'pakets.update',
-            'pakets.delete',
-            'servers.view',
-            'servers.create',
-            'servers.update',
-            'servers.delete',
-            'pelanggans.view',
-            'pelanggans.create',
-            'pelanggans.update',
-            'pelanggans.delete',
-            'bulans.view',
-            'bulans.create',
-            'bulans.update',
-            'bulans.delete',
-            'tagihans.view',
-            'tagihans.create',
-            'tagihans.update',
-            'tagihans.delete',
-            'payments.view',
-            'payments.create',
-            'payments.update',
-            'payments.delete',
+            'categories.view',
+            'categories.create',
+            'categories.update',
+            'categories.delete',
+            'tickets.view',
+            'tickets.create',
+            'tickets.update',
+            'tickets.delete',
+
         ]);
 
         // 👑 SUPER ADMIN: semua permission
@@ -101,13 +82,13 @@ class UsersAndPermissionsSeeder extends Seeder
 
         // === 4️⃣ USER DEFAULT & ADMIN & SUPER ===
         $super = User::updateOrCreate(
-            ['email' => 'super@stylus.local'],
+            ['email' => 'super@example.com'],
             ['name' => 'Super Admin Stylus', 'password' => Hash::make('password')]
         );
         $super->syncRoles(['super_admin']);
 
         $admin = User::updateOrCreate(
-            ['email' => 'admin@stylus.local'],
+            ['email' => 'admin@example.com'],
             ['name' => 'Admin Stylus', 'password' => Hash::make('password')]
         );
         $admin->syncRoles(['admin']);

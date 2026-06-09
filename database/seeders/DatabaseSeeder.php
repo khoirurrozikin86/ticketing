@@ -26,8 +26,9 @@ class DatabaseSeeder extends Seeder
             // ServerSeeder::class,
             // PelangganSeeder::class,
 
-               CategorySeeder::class,
-                   TicketSeeder::class,
+            CategorySeeder::class,
+            TicketSeeder::class,
+            UsersAndPermissionsSeeder::class,
         ]);
     }
 }
